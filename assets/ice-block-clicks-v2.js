@@ -16,7 +16,7 @@ export function installIceInteractions(ice, geometries, api) {
   const canvas = renderer.domElement;
   let press = null;
   const pick = event => {
-    if (!ice.mesh.visible || ice.scene.progress > 0.45 ||
+    if (!ice.mesh.visible || ice.scene.isSceneVisible === false ||
         (ice.mesh.material.uniforms?.uIntroMaterialize?.value ?? 1) < 0.95) return null;
     const rect = canvas.getBoundingClientRect();
     pointer.x = (event.clientX - rect.left) / rect.width * 2 - 1;
