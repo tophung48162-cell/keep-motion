@@ -16,6 +16,7 @@ export function installIceInteractions(ice, geometries, api) {
   const canvas = renderer.domElement;
   let press = null;
   const pick = event => {
+    canvas.dataset.pickState = JSON.stringify({visible:ice.mesh.visible,sceneVisible:ice.scene.isSceneVisible,intro:ice.mesh.material.uniforms?.uIntroMaterialize?.value,x:event.clientX,y:event.clientY});
     if (!ice.mesh.visible || ice.scene.isSceneVisible === false ||
         (ice.mesh.material.uniforms?.uIntroMaterialize?.value ?? 1) < 0.95) return null;
     const rect = canvas.getBoundingClientRect();
@@ -30,6 +31,7 @@ export function installIceInteractions(ice, geometries, api) {
   };
   window.addEventListener('pointerdown', event => {
     if(event.button !== 0 || event.target.closest?.('button,a,input,textarea,select')) { press = null; return; }
+    canvas.dataset.pointerDown = String(Number(canvas.dataset.pointerDown || 0)+1);
     press = { x: event.clientX, y: event.clientY };
   }, true);
   window.addEventListener('pointermove', event => {
